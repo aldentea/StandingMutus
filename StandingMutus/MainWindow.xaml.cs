@@ -13,16 +13,30 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace StandingMutus
+namespace Aldentea.StandingMutus
 {
+	using Aldentea.SweetMutus.Data;
 	/// <summary>
 	/// MainWindow.xaml の相互作用ロジック
 	/// </summary>
-	public partial class MainWindow : Window
+	public partial class MainWindow : Wpf.Application.BasicWindow
 	{
+
+		#region *MyDocumentプロパティ
+		protected SweetMutusGameDocument MyDocument
+		{
+			get { return (SweetMutusGameDocument)App.Current.Document; }
+		}
+		#endregion
+
 		public MainWindow()
 		{
 			InitializeComponent();
+
+			this.FileHistoryShortcutParent = menuItemHistory;
+
+			//MyDocument.Confirmer = (message) => this.Confirm(message);
+			//MyDocument.Initialized += MyDocument_Initialized;
 		}
 	}
 }

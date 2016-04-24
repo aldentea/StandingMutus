@@ -1,9 +1,11 @@
-﻿<Application x:Class="StandingMutus.App"
+﻿<base:Application x:Class="Aldentea.StandingMutus.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:StandingMutus"
-             StartupUri="MainWindow.xaml">
+             xmlns:local="clr-namespace:Aldentea.StandingMutus"
+						 xmlns:base="clr-namespace:Aldentea.Wpf.Application;assembly=AldenteaWpfApplication"
+             StartupUri="MainWindow.xaml"
+						Startup="Application_Startup">
     <Application.Resources>
          
     </Application.Resources>
-</Application>
+</base:Application>
