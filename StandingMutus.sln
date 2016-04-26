@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StandingMutus", "StandingMutus\StandingMutus.csproj", "{965B7A82-760A-476E-A0D4-5B0878BC9B15}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StandingMutusBase", "StandingMutusBase\StandingMutusBase.csproj", "{450CC209-4484-4EA7-890E-248653335ADB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{965B7A82-760A-476E-A0D4-5B0878BC9B15}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{965B7A82-760A-476E-A0D4-5B0878BC9B15}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{965B7A82-760A-476E-A0D4-5B0878BC9B15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{450CC209-4484-4EA7-890E-248653335ADB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{450CC209-4484-4EA7-890E-248653335ADB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{450CC209-4484-4EA7-890E-248653335ADB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{450CC209-4484-4EA7-890E-248653335ADB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

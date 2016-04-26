@@ -37,8 +37,9 @@
 			</MenuItem>
 		</Menu>
 		<StackPanel Orientation="Vertical" DockPanel.Dock="Left" HorizontalAlignment="Left">
+			<Button Content="準備" Width="100" Padding="20,10" Margin="20,5"/>
 			<Button Content="再生" Width="100" Padding="20,10" Margin="20,5"/>
-			<Button Content="再生" Width="100" Padding="20,10" Margin="20,5"/>
+			<Button Content="停止" Width="100" Padding="20,10" Margin="20,5"/>
 		</StackPanel>
 		<Grid>
 			<Grid.RowDefinitions>
