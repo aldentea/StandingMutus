@@ -10,6 +10,7 @@ using Aldentea.SweetMutus.Data;
 
 namespace Aldentea.StandingMutus.Base
 {
+
 	// とりあえずコピペ．
 	#region StandingQuestionPlayerクラス
 	public class StandingQuestionPlayer : INotifyPropertyChanged
@@ -293,5 +294,6 @@ namespace Aldentea.StandingMutus.Base
 
 	}
 	#endregion
+
 }
 

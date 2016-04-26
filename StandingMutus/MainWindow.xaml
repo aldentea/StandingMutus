@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:Aldentea.StandingMutus"
 				xmlns:util="clr-namespace:Aldentea.Wpf.Utility;assembly=AldenteaWpfUtility"
 				xmlns:appbase="clr-namespace:Aldentea.Wpf.Application;assembly=AldenteaWpfApplication"
+				xmlns:base="clr-namespace:Aldentea.StandingMutus.Base;assembly=StandingMutusBase"
 			mc:Ignorable="d"
 		OpenFileDialogFilter="SweetMutusファイル(*.smt)|*.smt|mutus2ファイル(*.mtu)|*.mtu|HyperMutusファイル(*.mtu,*.mtq)|*.mtu;*.mtq"
 		SaveFileDialogFilter="SweetMutusファイル(*.smt)|*.smt"
@@ -24,6 +25,13 @@
 		</MultiBinding>
 	</Window.Title>
 
+	<Window.CommandBindings>
+		<CommandBinding
+			Command="{x:Static base:Commands.StandbyCommand}"
+			CanExecute="Standby_CanExecute"
+			Executed="Standby_Executed"
+		/>
+	</Window.CommandBindings>
 	<DockPanel>
 		<Menu DockPanel.Dock="Top">
 			<MenuItem Header="ファイル(_F)">
@@ -37,7 +45,7 @@
 			</MenuItem>
 		</Menu>
 		<StackPanel Orientation="Vertical" DockPanel.Dock="Left" HorizontalAlignment="Left">
-			<Button Content="準備" Width="100" Padding="20,10" Margin="20,5"/>
+			<Button Content="準備" Width="100" Padding="20,10" Margin="20,5" Command="{x:Static base:Commands.StandbyCommand}"/>
 			<Button Content="再生" Width="100" Padding="20,10" Margin="20,5"/>
 			<Button Content="停止" Width="100" Padding="20,10" Margin="20,5"/>
 		</StackPanel>
@@ -46,7 +54,10 @@
 				<RowDefinition Height="110" />
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
+			<StackPanel Grid.Row="0">
 			<TextBlock>01.光／宇多田ヒカル</TextBlock>
+			<TextBlock Name="TextBoxDuration">再生時間 23.54 秒</TextBlock>
+			</StackPanel>
 		</Grid>
 	</DockPanel>
 </appbase:BasicWindow>

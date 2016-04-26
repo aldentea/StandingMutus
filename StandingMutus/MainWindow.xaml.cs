@@ -10,7 +10,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
+using System.ComponentModel;
 using System.Windows.Shapes;
 
 namespace Aldentea.StandingMutus
@@ -19,7 +19,7 @@ namespace Aldentea.StandingMutus
 	/// <summary>
 	/// MainWindow.xaml の相互作用ロジック
 	/// </summary>
-	public partial class MainWindow : Wpf.Application.BasicWindow
+	public partial class MainWindow : Wpf.Application.BasicWindow, INotifyPropertyChanged
 	{
 
 		#region *MyDocumentプロパティ
@@ -38,6 +38,7 @@ namespace Aldentea.StandingMutus
 			}
 		}
 		#endregion
+
 
 		public MainWindow()
 		{
@@ -80,10 +81,94 @@ namespace Aldentea.StandingMutus
 			//☆MySettings.SongPlayerVolume = this.MySongPlayer.Volume;
 
 		}
+
+
+
+		#endregion
+
+		string _category = string.Empty;
+
+
+
+		#region *CurrentQuestionプロパティ
+		/// <summary>
+		/// 出題中の問題を取得します(setterはとりあえずprivateです)．
+		/// </summary>
+		public SweetQuestion CurrentQuestion
+		{
+			get
+			{
+				return _currentQuestion;
+			}
+			private set
+			{
+				if (_currentQuestion != value)
+				{
+					_currentQuestion = value;
+					NotifyPropertyChanged("CurrentQuestion");
+				}
+			}
+		}
+		SweetQuestion _currentQuestion;
+		#endregion
+
+		private void Standby_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			// ※とりあえず。
+			e.CanExecute = true;
+		}
+
+		private void Standby_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			var nextQuestion = MyDocument.GetQuestion(_category, 1);
+			if (nextQuestion == null)
+			{
+				MessageBox.Show("問題がありません。");
+			}
+			else
+			{
+				MyDocument.AddOrder(nextQuestion.ID);
+
+			}
+		}
+
+		#region イベントハンドラ
+
+		#region *Order追加時
+		private void MyDocument_OrderAdded(object sender, GrandMutus.Data.OrderEventArgs e)
+		{
+			var q_id = e.QuestionID;
+			if (q_id.HasValue)
+			{
+				var nextQuestion = MyDocument.Questions.Get(q_id.Value);
+				this.CurrentQuestion = nextQuestion;
+				//MyQuestionPlayer.Open(nextQuestion);
+				//this.CurrentPhase = PlayingPhase.Ready;
+			}
+		}
+		#endregion
+
+		#region *Order削除時
+		private void MyDocument_OrderRemoved(object sender, GrandMutus.Data.OrderEventArgs e)
+		{
+			//this.CurrentPhase = PlayingPhase.Talking;
+			//MyQuestionPlayer.Close();
+			this.CurrentQuestion = null;
+		}
+		#endregion
+
 		#endregion
 
 
+		#region INotifyPropertyChanged実装
 
+		public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
+		protected void NotifyPropertyChanged(string propertyName)
+		{
+			this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+		}
+		#endregion
 
 	}
 }
