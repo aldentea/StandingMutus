@@ -22,7 +22,6 @@ namespace Aldentea.StandingMutus
 			: base()
 		{
 			this.Document = new SweetMutus.Data.SweetMutusGameDocument();
-			this.Exit += new ExitEventHandler(App_Exit);
 		}
 
 		void App_Exit(object sender, ExitEventArgs e)

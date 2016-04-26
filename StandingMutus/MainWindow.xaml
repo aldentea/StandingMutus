@@ -10,6 +10,8 @@
 		OpenFileDialogFilter="SweetMutusファイル(*.smt)|*.smt|mutus2ファイル(*.mtu)|*.mtu|HyperMutusファイル(*.mtu,*.mtq)|*.mtu;*.mtq"
 		SaveFileDialogFilter="SweetMutusファイル(*.smt)|*.smt"
 		Height="600" Width="800"
+				Initialized="MainWindow_Initialized"
+				Closed="MainWindow_Closed"
 	>
 	<Window.Resources>
 		<util:CaptionConverter x:Key="captionConverter" ApplicationName="StandingMutus" />

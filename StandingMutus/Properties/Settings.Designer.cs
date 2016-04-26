@@ -69,5 +69,41 @@ namespace Aldentea.StandingMutus.Properties {
                 this["RequireUpgrade"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0,0,800,640")]
+        public global::System.Windows.Rect MainWindowRect {
+            get {
+                return ((global::System.Windows.Rect)(this["MainWindowRect"]));
+            }
+            set {
+                this["MainWindowRect"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool MainWindowMaximized {
+            get {
+                return ((bool)(this["MainWindowMaximized"]));
+            }
+            set {
+                this["MainWindowMaximized"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.5")]
+        public double SongPlayerVolume {
+            get {
+                return ((double)(this["SongPlayerVolume"]));
+            }
+            set {
+                this["SongPlayerVolume"] = value;
+            }
+        }
     }
 }

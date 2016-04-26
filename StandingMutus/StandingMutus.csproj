@@ -45,7 +45,7 @@
       <HintPath>..\external\AldenteaWpfUtility.dll</HintPath>
     </Reference>
     <Reference Include="GrandMutusData">
-      <HintPath>..\..\SweetMutus\external\GrandMutusData.dll</HintPath>
+      <HintPath>..\external\GrandMutusData.dll</HintPath>
     </Reference>
     <Reference Include="SweetMutusData">
       <HintPath>..\external\SweetMutusData.dll</HintPath>
