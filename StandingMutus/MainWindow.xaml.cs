@@ -48,6 +48,8 @@ namespace Aldentea.StandingMutus
 
 			//MyDocument.Confirmer = (message) => this.Confirm(message);
 			//MyDocument.Initialized += MyDocument_Initialized;
+
+			MyQuestionPlayer.MediaOpened += MyQuestionPlayer_MediaOpened;
 		}
 
 		#region *ウィンドウ初期化時(MainWindow_Initialized)
@@ -112,6 +114,17 @@ namespace Aldentea.StandingMutus
 		SweetQuestion _currentQuestion;
 		#endregion
 
+		#region *MyQuestionPlayerプロパティ
+		public Base.StandingQuestionPlayer MyQuestionPlayer
+		{
+			get
+			{
+				return _questionPlayer;
+			}
+		}
+		Base.StandingQuestionPlayer _questionPlayer = new Base.StandingQuestionPlayer();
+		#endregion
+
 		private void Standby_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
 			// ※とりあえず。
@@ -128,7 +141,7 @@ namespace Aldentea.StandingMutus
 			else
 			{
 				MyDocument.AddOrder(nextQuestion.ID);
-
+				// これ以降の処理は，OrderAddedのイベントハンドラで行う．
 			}
 		}
 
@@ -142,7 +155,7 @@ namespace Aldentea.StandingMutus
 			{
 				var nextQuestion = MyDocument.Questions.Get(q_id.Value);
 				this.CurrentQuestion = nextQuestion;
-				//MyQuestionPlayer.Open(nextQuestion);
+				MyQuestionPlayer.Open(nextQuestion);
 				//this.CurrentPhase = PlayingPhase.Ready;
 			}
 		}
@@ -156,6 +169,24 @@ namespace Aldentea.StandingMutus
 			this.CurrentQuestion = null;
 		}
 		#endregion
+
+
+		private void MyQuestionPlayer_MediaOpened(object sender, EventArgs e)
+		{
+			// この時点で，残り(出題)時間を表示するようにしたい．
+			//if (MyQuestionPlayer.Duration.HasValue)
+			//{
+				/*
+				this.labelDuration.Content = _songPlayer.Duration.Value;
+				this.sliderSeekSong.Maximum = _songPlayer.Duration.Value.TotalSeconds;
+				// 出題用
+				this.labelDuration_Play.Content = _songPlayer.Duration.Value;
+				this.sliderSeekSong_Play.Maximum = _songPlayer.Duration.Value.TotalSeconds;
+				*/
+			//}
+		}
+
+
 
 		#endregion
 
