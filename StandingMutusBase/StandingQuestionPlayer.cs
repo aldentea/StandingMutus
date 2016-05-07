@@ -34,6 +34,7 @@ namespace Aldentea.StandingMutus.Base
 				{
 					_currentQuestion = value;
 					NotifyPropertyChanged("CurrentQuestion");
+					NotifyPropertyChanged("CurrentQuestionDuration");
 				}
 			}
 		}
@@ -75,6 +76,43 @@ namespace Aldentea.StandingMutus.Base
 			}
 		}
 		#endregion
+
+		/// <summary>
+		/// 現在の問題の出題時間を取得します。
+		/// </summary>
+		public TimeSpan? CurrentQuestionDuration
+		{
+			get
+			{
+				if (_currentQuestion != null)
+				{
+					// ※StopPosが設定されていない場合(0)はどうする？
+					return CurrentQuestion.StopPos - CurrentQuestion.PlayPos;
+				}
+				else
+				{
+					return null;
+				}
+			}
+		}
+
+		/// <summary>
+		/// 現在の問題の残り出題時間を取得します。Questionフェイズでのみvalidです。
+		/// </summary>
+		public TimeSpan? CurrentQuestionRestDuration
+		{
+			get
+			{
+				if (_currentQuestion != null && CurrentQuestionDuration.HasValue)
+				{
+					return CurrentQuestionDuration.Value - CurrentPosition;
+				}
+				else
+				{
+					return null;
+				}
+			}
+		}
 
 		#region *CurrentPhaseプロパティ
 		protected Phase CurrentPhase
@@ -139,6 +177,7 @@ namespace Aldentea.StandingMutus.Base
 			{
 				_currentSongDuration = _questionMediaPlayer.NaturalDuration.TimeSpan;
 				NotifyPropertyChanged("Duration");
+				NotifyPropertyChanged("CurrentQuestionRestDuration");
 				this.MediaOpened(this, EventArgs.Empty);
 			}
 		}
@@ -180,6 +219,10 @@ namespace Aldentea.StandingMutus.Base
 		}
 		#endregion
 
+
+
+
+
 		#region *出題開始(Start)
 		public void Start()
 		{
@@ -198,41 +241,85 @@ namespace Aldentea.StandingMutus.Base
 			_questionClock = (MediaClock)_questionTimeLine.CreateClock(true);
 			_questionClock.Controller.Seek(CurrentQuestion.PlayPos, TimeSeekOrigin.BeginTime);
 			_questionClock.Completed += question_Completed;
-			_questionMediaPlayer.Clock = _questionClock;
+			_questionMediaPlayer.Clock = _questionClock;	// これがMediaOpenedイベントの引き金になる。
 			_timer.Start();
+
+		}
+		#endregion
+
+
+		/// <summary>
+		/// 出題が終了して、フォロー再生の準備をするときに発生します。
+		/// </summary>
+		public event EventHandler QuestionEnded = delegate { };
+
+
+		#region *出題停止(Stop)
+		public void Stop(bool second = false)
+		{
+			_questionClock.Controller.Pause();
+
+			// ここではTimeLineの切り替えを行わない！
+
+			_timer.Stop();
+
+			this.QuestionStopped(this, EventArgs.Empty);
 
 		}
 		#endregion
 
 		private void question_Completed(object sender, EventArgs e)
 		{
-			Stop();
+			// 1回目と2回目のいずれでも発生する可能性がある。
+			End();
 		}
 
-		#region *出題停止(Stop)
-		public void Stop()
+		#region *出題終了(End)
+		public void End()
 		{
 			_questionClock.Controller.Pause();
+			_timer.Stop();
 
+			SwitchPlayerMode();
+			QuestionEnded(this, EventArgs.Empty);
+
+		}
+		#endregion
+
+
+
+		/// <summary>
+		/// ボード解答用の再生を行います。
+		/// </summary>
+		public void Restart()
+		{
+			_questionClock.Controller.Resume();
+			_timer.Start();
+		}
+
+		/// <summary>
+		/// クロックを出題用からフォロー用に切り替えます。
+		/// </summary>
+		void SwitchPlayerMode()
+		{
 			_questionTimeLine.Duration = System.Windows.Duration.Automatic;
 			_followClock = (MediaClock)_questionTimeLine.CreateClock(true);
 			_followClock.Controller.Seek(_questionMediaPlayer.Position, TimeSeekOrigin.BeginTime);
 
-			_timer.Stop();
-
-			this.QuestionStopped(this, EventArgs.Empty);
-
 			// Clockを切り替えます。
 			_questionMediaPlayer.Clock = _followClock;
 			_followClock.Controller.Pause();
-
 		}
-		#endregion
+
 
 		/// <summary>
 		/// 出題が停止したときに発生します。出題停止位置に達した場合にも発生します。
 		/// </summary>
 		public event EventHandler QuestionStopped = delegate { };
+
+
+
+
 
 		public void Follow()
 		{

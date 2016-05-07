@@ -7,15 +7,18 @@
 				xmlns:util="clr-namespace:Aldentea.Wpf.Utility;assembly=AldenteaWpfUtility"
 				xmlns:appbase="clr-namespace:Aldentea.Wpf.Application;assembly=AldenteaWpfApplication"
 				xmlns:base="clr-namespace:Aldentea.StandingMutus.Base;assembly=StandingMutusBase"
-			mc:Ignorable="d"
+	xmlns:hypermutus="clr-namespace:HyperMutus;assembly=MutusBase"
+										 mc:Ignorable="d"
 		OpenFileDialogFilter="SweetMutusファイル(*.smt)|*.smt|mutus2ファイル(*.mtu)|*.mtu|HyperMutusファイル(*.mtu,*.mtq)|*.mtu;*.mtq"
 		SaveFileDialogFilter="SweetMutusファイル(*.smt)|*.smt"
-		Height="600" Width="800"
+		Height="600" Width="800" FontSize="18"
 				Initialized="MainWindow_Initialized"
 				Closed="MainWindow_Closed"
 	>
 	<Window.Resources>
 		<util:CaptionConverter x:Key="captionConverter" ApplicationName="StandingMutus" />
+		<base:QuestionDurationConverter x:Key="questionDurationConverter" />
+		<base:QuestionConverter x:Key="questionConverter" />
 	</Window.Resources>
 	<Window.Title>
 		<MultiBinding Converter="{StaticResource captionConverter}">
@@ -31,9 +34,34 @@
 			CanExecute="Standby_CanExecute"
 			Executed="Standby_Executed"
 		/>
+		<CommandBinding Command="{x:Static hypermutus:QuizCommands.Start}"
+										Executed="StartQuestion_Executed"
+										CanExecute="StartQuestion_CanExecute" />
+		<CommandBinding Command="{x:Static hypermutus:QuizCommands.Stop}"
+										Executed="StopQuestion_Executed"
+										CanExecute="StopQuestion_CanExecute" />
+		<CommandBinding
+			Command="{x:Static base:Commands.RestartCommand}"
+			CanExecute="RestartQuestion_CanExecute"
+			Executed="RestartQuestion_Executed"
+		/>
+		<CommandBinding
+			Command="{x:Static base:Commands.EndQuestionCommand}"
+			CanExecute="EndQuestion_CanExecute"
+			Executed="EndQuestion_Executed"
+		/>
+		<CommandBinding
+										Command="{x:Static hypermutus:Commands.SwitchPlayPauseCommand}"
+										Executed="SwitchPlayPause_Executed"
+										CanExecute="SwitchPlayPause_CanExecute" />
+		<CommandBinding
+										Command="{x:Static hypermutus:Commands.SeekSabiCommand}"
+										Executed="SeekSabi_Executed"
+										CanExecute="SeekSabi_CanExecute" />
+
 	</Window.CommandBindings>
 	<DockPanel>
-		<Menu DockPanel.Dock="Top">
+		<Menu DockPanel.Dock="Top" FontSize="18">
 			<MenuItem Header="ファイル(_F)">
 				<MenuItem Header="新規作成(_N)" Command="New" />
 				<MenuItem Header="開く(_O)" Command="Open" />
@@ -45,18 +73,32 @@
 			</MenuItem>
 		</Menu>
 		<StackPanel Orientation="Vertical" DockPanel.Dock="Left" HorizontalAlignment="Left">
-			<Button Content="準備" Width="100" Padding="20,10" Margin="20,5" Command="{x:Static base:Commands.StandbyCommand}"/>
-			<Button Content="再生" Width="100" Padding="20,10" Margin="20,5"/>
-			<Button Content="停止" Width="100" Padding="20,10" Margin="20,5"/>
+			<StackPanel.Resources>
+				<Style TargetType="Button">
+					<Setter Property="Padding" Value="20,10" />
+					<Setter Property="MinWidth" Value="100" />
+					<Setter Property="Margin" Value="20,5" />
+				</Style>
+			</StackPanel.Resources>
+			<Button Content="準備" Command="{x:Static base:Commands.StandbyCommand}"/>
+			<Button Content="出題開始" Command="{x:Static hypermutus:QuizCommands.Start}" />
+			<Button Content="停止" Command="{x:Static hypermutus:QuizCommands.Stop}" />
+			<Label Name="labelQuestionDuration" />
+			<Button Content="出題続行" Command="{x:Static base:Commands.RestartCommand}" />
+			<Button Content="出題終了" Command="{x:Static base:Commands.EndQuestionCommand}" />
+			<Button Content="再生" Command="{x:Static hypermutus:Commands.SwitchPlayPauseCommand}" />
+			<Button Content="サビ" Command="{x:Static hypermutus:Commands.SeekSabiCommand}" />
 		</StackPanel>
 		<Grid>
 			<Grid.RowDefinitions>
 				<RowDefinition Height="110" />
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
-			<StackPanel Grid.Row="0">
-			<TextBlock>01.光／宇多田ヒカル</TextBlock>
-			<TextBlock Name="TextBoxDuration">再生時間 23.54 秒</TextBlock>
+			<StackPanel Grid.Row="0" DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
+			<TextBlock Text="{Binding Path=CurrentQuestion, Converter={StaticResource questionConverter}}"></TextBlock>
+				<TextBlock Name="TextBoxDuration">再生時間
+					<Run Text="{Binding Path=MyQuestionPlayer.CurrentQuestionDuration, Mode=OneWay, Converter={StaticResource questionDurationConverter}}"></Run> 秒</TextBlock>
+			<TextBlock Name="TextBoxRest">残り時間 <Run Text="{Binding Path=CurrentQuestionRestDuration, Mode=OneWay}"></Run> 秒</TextBlock>
 			</StackPanel>
 		</Grid>
 	</DockPanel>

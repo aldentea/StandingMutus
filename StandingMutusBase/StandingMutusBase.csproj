@@ -38,6 +38,7 @@
       <HintPath>..\external\GrandMutusData.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="SweetMutusData">
       <HintPath>..\external\SweetMutusData.dll</HintPath>
     </Reference>
@@ -53,6 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands.cs" />
+    <Compile Include="Converters.cs" />
+    <Compile Include="Phase.cs" />
     <Compile Include="StandingQuestionPlayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

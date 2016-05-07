@@ -47,6 +47,9 @@
     <Reference Include="GrandMutusData">
       <HintPath>..\external\GrandMutusData.dll</HintPath>
     </Reference>
+    <Reference Include="MutusBase">
+      <HintPath>..\external\MutusBase.dll</HintPath>
+    </Reference>
     <Reference Include="SweetMutusData">
       <HintPath>..\external\SweetMutusData.dll</HintPath>
     </Reference>
