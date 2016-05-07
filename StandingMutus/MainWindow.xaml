@@ -63,7 +63,6 @@
 	<DockPanel>
 		<Menu DockPanel.Dock="Top" FontSize="18">
 			<MenuItem Header="ファイル(_F)">
-				<MenuItem Header="新規作成(_N)" Command="New" />
 				<MenuItem Header="開く(_O)" Command="Open" />
 				<MenuItem Header="履歴から開く(_H)" Name="menuItemHistory" />
 				<MenuItem Header="保存(_S)" Command="Save" />
@@ -72,6 +71,9 @@
 				<MenuItem Header="終了(_X)" Command="Close" />
 			</MenuItem>
 		</Menu>
+		<Slider Orientation="Vertical" Name="sliderVolume" DockPanel.Dock="Left" Width="30" Margin="10"
+						Value="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=MyQuestionPlayer.Volume}"
+						Maximum="1" TickFrequency="0.2" SmallChange="0.02" LargeChange="0.2" AutoToolTipPlacement="TopLeft" />
 		<StackPanel Orientation="Vertical" DockPanel.Dock="Left" HorizontalAlignment="Left">
 			<StackPanel.Resources>
 				<Style TargetType="Button">
@@ -83,7 +85,6 @@
 			<Button Content="準備" Command="{x:Static base:Commands.StandbyCommand}"/>
 			<Button Content="出題開始" Command="{x:Static hypermutus:QuizCommands.Start}" />
 			<Button Content="停止" Command="{x:Static hypermutus:QuizCommands.Stop}" />
-			<Label Name="labelQuestionDuration" />
 			<Button Content="出題続行" Command="{x:Static base:Commands.RestartCommand}" />
 			<Button Content="出題終了" Command="{x:Static base:Commands.EndQuestionCommand}" />
 			<Button Content="再生" Command="{x:Static hypermutus:Commands.SwitchPlayPauseCommand}" />
@@ -98,7 +99,8 @@
 			<TextBlock Text="{Binding Path=CurrentQuestion, Converter={StaticResource questionConverter}}"></TextBlock>
 				<TextBlock Name="TextBoxDuration">再生時間
 					<Run Text="{Binding Path=MyQuestionPlayer.CurrentQuestionDuration, Mode=OneWay, Converter={StaticResource questionDurationConverter}}"></Run> 秒</TextBlock>
-			<TextBlock Name="TextBoxRest">残り時間 <Run Text="{Binding Path=CurrentQuestionRestDuration, Mode=OneWay}"></Run> 秒</TextBlock>
+				<TextBlock Name="TextBoxRest">残り時間
+					<Run Text="{Binding Path=MyQuestionPlayer.CurrentQuestionRestDuration, Mode=OneWay, Converter={StaticResource questionDurationConverter}}"></Run> 秒</TextBlock>
 			</StackPanel>
 		</Grid>
 	</DockPanel>

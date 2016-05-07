@@ -42,7 +42,7 @@ namespace Aldentea.StandingMutus.Base
 			else if (value is SweetMutus.Data.SweetQuestion)
 			{
 				var question = (SweetMutus.Data.SweetQuestion)value;
-				return $"{question.No.Value.ToString("00")}.{question.Title}/{question.Artist}";	// C# 6.0 の記法。
+				return $"{question.No.Value.ToString("00")}.{question.Title}／{question.Artist}";	// C# 6.0 の記法。
 			}
 			else
 			{

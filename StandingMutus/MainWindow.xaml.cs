@@ -73,8 +73,7 @@ namespace Aldentea.StandingMutus
 				this.Height = MySettings.MainWindowRect.Height;
 			}
 
-			//☆this.MySongPlayer.Volume = MySettings.SongPlayerVolume;
-
+			this.MyQuestionPlayer.Volume = MySettings.SongPlayerVolume;
 		}
 		#endregion
 
@@ -85,7 +84,7 @@ namespace Aldentea.StandingMutus
 			MySettings.MainWindowMaximized = this.WindowState == System.Windows.WindowState.Maximized;
 			MySettings.MainWindowRect = new Rect(this.Left, this.Top, this.Width, this.Height);
 
-			//☆MySettings.SongPlayerVolume = this.MySongPlayer.Volume;
+			MySettings.SongPlayerVolume = this.MyQuestionPlayer.Volume;
 
 		}
 
@@ -199,7 +198,6 @@ namespace Aldentea.StandingMutus
 				var nextQuestion = MyDocument.Questions.Get(q_id.Value);
 				this.CurrentQuestion = nextQuestion;
 				MyQuestionPlayer.Open(nextQuestion);
-				this.labelQuestionDuration.Content = _questionPlayer.CurrentQuestionDuration;
 
 				this.CurrentPhase = Phase.Ready;
 			}

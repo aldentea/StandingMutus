@@ -35,6 +35,7 @@ namespace Aldentea.StandingMutus.Base
 					_currentQuestion = value;
 					NotifyPropertyChanged("CurrentQuestion");
 					NotifyPropertyChanged("CurrentQuestionDuration");
+					NotifyPropertyChanged("CurrentQuestionRestDuration");
 				}
 			}
 		}
@@ -77,6 +78,7 @@ namespace Aldentea.StandingMutus.Base
 		}
 		#endregion
 
+		#region *CurrentQuestionRestDurationプロパティ
 		/// <summary>
 		/// 現在の問題の出題時間を取得します。
 		/// </summary>
@@ -95,7 +97,9 @@ namespace Aldentea.StandingMutus.Base
 				}
 			}
 		}
+		#endregion
 
+		#region *CurrentQuestionRestDurationプロパティ
 		/// <summary>
 		/// 現在の問題の残り出題時間を取得します。Questionフェイズでのみvalidです。
 		/// </summary>
@@ -103,9 +107,18 @@ namespace Aldentea.StandingMutus.Base
 		{
 			get
 			{
-				if (_currentQuestion != null && CurrentQuestionDuration.HasValue)
+				if (_currentQuestion != null)
 				{
-					return CurrentQuestionDuration.Value - CurrentPosition;
+					if (_questionClock == null)
+					{
+						// 出題開始前
+						return CurrentQuestionDuration;
+					}
+					else
+					{
+						// 出題開始後
+						return CurrentQuestion.StopPos - CurrentPosition;
+					}
 				}
 				else
 				{
@@ -113,6 +126,7 @@ namespace Aldentea.StandingMutus.Base
 				}
 			}
 		}
+		#endregion
 
 		#region *CurrentPhaseプロパティ
 		protected Phase CurrentPhase
@@ -234,7 +248,10 @@ namespace Aldentea.StandingMutus.Base
 
 			// CurrentPosition更新通知用のタイマーを動かす。
 			_timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(250) };
-			_timer.Tick += (sender, e) => { NotifyPropertyChanged("CurrentPosition"); };
+			_timer.Tick += (sender, e) => {
+				NotifyPropertyChanged("CurrentPosition");
+				NotifyPropertyChanged("CurrentQuestionRestDuration");
+			};
 
 
 			// 再生を開始する。
@@ -258,10 +275,10 @@ namespace Aldentea.StandingMutus.Base
 		public void Stop(bool second = false)
 		{
 			_questionClock.Controller.Pause();
-
 			// ここではTimeLineの切り替えを行わない！
 
 			_timer.Stop();
+			NotifyPropertyChanged("CurrentQuestionRestDuration");
 
 			this.QuestionStopped(this, EventArgs.Empty);
 
@@ -279,6 +296,7 @@ namespace Aldentea.StandingMutus.Base
 		{
 			_questionClock.Controller.Pause();
 			_timer.Stop();
+			NotifyPropertyChanged("CurrentQuestionRestDuration");
 
 			SwitchPlayerMode();
 			QuestionEnded(this, EventArgs.Empty);
