@@ -70,6 +70,9 @@
 				<Separator />
 				<MenuItem Header="終了(_X)" Command="Close" />
 			</MenuItem>
+			<MenuItem Header="モード(_M)">
+				<MenuItem Header="リハーサル(_R)" IsCheckable="True" IsChecked="{Binding Path=IsRehearsal}" />
+			</MenuItem>
 		</Menu>
 		<Slider Orientation="Vertical" Name="sliderVolume" DockPanel.Dock="Left" Width="30" Margin="10"
 						Value="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=MyQuestionPlayer.Volume}"

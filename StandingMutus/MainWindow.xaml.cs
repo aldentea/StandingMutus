@@ -130,6 +130,27 @@ namespace Aldentea.StandingMutus
 		#endregion
 
 
+		// 不要？(MyDocumentのプロパティに直接バインディングできた！)
+		// (0.2.2)
+		/*
+		#region *IsRehearsalプロパティ
+		public bool IsRehearsal
+		{
+			get
+			{
+				return MyDocument.IsRehearsal;
+			}
+			set
+			{
+				if (MyDocument.IsRehearsal != value)
+				{
+					MyDocument.IsRehearsal = value;
+					NotifyPropertyChanged("IsRehearsal");
+				}
+			}
+		}
+		#endregion
+			*/
 
 
 		#region *CurrentQuestionプロパティ
