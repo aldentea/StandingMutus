@@ -32,7 +32,7 @@ namespace Aldentea.StandingMutus.Base
 
 	public class QuestionConverter : IValueConverter
 	{
-		// TimeSpan? => string
+
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			if (value == null)
@@ -41,8 +41,13 @@ namespace Aldentea.StandingMutus.Base
 			}
 			else if (value is SweetMutus.Data.SweetQuestion)
 			{
+				// parameterがtrueならば、アーティスト名を省略します。
+				var format = (parameter is bool && (bool)parameter) ? "{0}{1}" : "{0}{1}／{2}";
 				var question = (SweetMutus.Data.SweetQuestion)value;
-				return $"{question.No.Value.ToString("00")}.{question.Title}／{question.Artist}";	// C# 6.0 の記法。
+				//return $"{question.No.HasValue ? question.No.Value.ToString("00.") : string.Empty}{question.Title}／{question.Artist}";	// C# 6.0 の記法。← ? : は使えないの？
+				return string.Format(format, 
+					question.No.HasValue ? question.No.Value.ToString(@"00\.") : string.Empty,
+					question.Title, question.Artist);
 			}
 			else
 			{

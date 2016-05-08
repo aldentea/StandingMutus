@@ -8,6 +8,7 @@
 				xmlns:appbase="clr-namespace:Aldentea.Wpf.Application;assembly=AldenteaWpfApplication"
 				xmlns:base="clr-namespace:Aldentea.StandingMutus.Base;assembly=StandingMutusBase"
 	xmlns:hypermutus="clr-namespace:HyperMutus;assembly=MutusBase"
+										 xmlns:sys="clr-namespace:System;assembly=mscorlib"
 										 mc:Ignorable="d"
 		OpenFileDialogFilter="SweetMutusファイル(*.smt)|*.smt|mutus2ファイル(*.mtu)|*.mtu|HyperMutusファイル(*.mtu,*.mtq)|*.mtu;*.mtq"
 		SaveFileDialogFilter="SweetMutusファイル(*.smt)|*.smt"
@@ -70,13 +71,17 @@
 				<Separator />
 				<MenuItem Header="終了(_X)" Command="Close" />
 			</MenuItem>
+			<MenuItem Header="表示(_V)">
+				<MenuItem Header="問題リスト(_L)" IsCheckable="True" Checked="MenuItemQuestionList_Checked" Name="MenuItemQuestionList" Unchecked="MenuItemQuestionList_Checked" />
+			</MenuItem>
 			<MenuItem Header="モード(_M)">
 				<MenuItem Header="リハーサル(_R)" IsCheckable="True" IsChecked="{Binding Path=IsRehearsal}" />
 			</MenuItem>
 		</Menu>
 		<Slider Orientation="Vertical" Name="sliderVolume" DockPanel.Dock="Left" Width="30" Margin="10"
 						Value="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=MyQuestionPlayer.Volume}"
-						Maximum="1" TickFrequency="0.2" SmallChange="0.02" LargeChange="0.2" AutoToolTipPlacement="TopLeft" />
+						Maximum="1" TickFrequency="0.2" SmallChange="0.02" LargeChange="0.2" AutoToolTipPlacement="TopLeft"
+						AutoToolTipPrecision="2" />
 		<StackPanel Orientation="Vertical" DockPanel.Dock="Left" HorizontalAlignment="Left">
 			<StackPanel.Resources>
 				<Style TargetType="Button">
@@ -93,6 +98,19 @@
 			<Button Content="再生" Command="{x:Static hypermutus:Commands.SwitchPlayPauseCommand}" />
 			<Button Content="サビ" Command="{x:Static hypermutus:Commands.SeekSabiCommand}" />
 		</StackPanel>
+		<ListBox DockPanel.Dock="Right" Name="QuestionListBox">
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock>
+						<TextBlock.Text>
+							<Binding Converter="{StaticResource questionConverter}">
+								<Binding.ConverterParameter>true</Binding.ConverterParameter>
+							</Binding></TextBlock.Text>
+					</TextBlock>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+			
+		</ListBox>
 		<Grid>
 			<Grid.RowDefinitions>
 				<RowDefinition Height="110" />

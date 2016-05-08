@@ -40,6 +40,7 @@ namespace Aldentea.StandingMutus
 		#endregion
 
 
+		#region *コンストラクタ(MainWindow)
 		public MainWindow()
 		{
 			InitializeComponent();
@@ -54,7 +55,9 @@ namespace Aldentea.StandingMutus
 			MyQuestionPlayer.QuestionEnded += MyQuestionPlayer_QuestionEnded;
 
 			MyDocument.OrderAdded += MyDocument_OrderAdded;
+			MyDocument.Opened += MyDocument_Opened;
 		}
+		#endregion
 
 
 		#region *ウィンドウ初期化時(MainWindow_Initialized)
@@ -153,6 +156,20 @@ namespace Aldentea.StandingMutus
 			*/
 
 
+		private void MyDocument_Opened(object sender, EventArgs e)
+		{
+			switch(MessageBox.Show("これは本番の出題ですか？", "モード設定の確認", MessageBoxButton.YesNo))
+			{
+				case MessageBoxResult.Yes:
+					MyDocument.IsRehearsal = false;
+					break;
+				case MessageBoxResult.No:
+					MyDocument.IsRehearsal = true;
+					break;
+			}
+		}
+
+
 		#region *CurrentQuestionプロパティ
 		/// <summary>
 		/// 出題中の問題を取得します(setterはとりあえずprivateです)．
@@ -186,6 +203,7 @@ namespace Aldentea.StandingMutus
 		Base.StandingQuestionPlayer _questionPlayer = new Base.StandingQuestionPlayer();
 		#endregion
 
+		#region Standby
 		private void Standby_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
 			// ※とりあえず。
@@ -196,7 +214,15 @@ namespace Aldentea.StandingMutus
 		private void Standby_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			_questionEnded = false;
-			var nextQuestion = MyDocument.GetQuestion(_category, n++);
+			SweetQuestion nextQuestion;
+			if (MenuItemQuestionList.IsChecked && QuestionListBox.SelectedItem != null)
+			{
+				nextQuestion = (SweetQuestion)QuestionListBox.SelectedItem;
+			}
+			else
+			{
+				nextQuestion = MyDocument.GetQuestion(_category, n++);
+			}
 			if (nextQuestion == null)
 			{
 				MessageBox.Show("問題がありません。");
@@ -207,6 +233,7 @@ namespace Aldentea.StandingMutus
 				// これ以降の処理は，OrderAddedのイベントハンドラで行う．
 			}
 		}
+		#endregion
 
 		#region イベントハンドラ
 
@@ -283,7 +310,11 @@ namespace Aldentea.StandingMutus
 		private void questionPlayer_QuestionStopped(object sender, EventArgs e)
 		{
 			// ※これってEndでも発生するんだっけ？
-			CurrentPhase = Phase.FirstThinking;
+			if (CurrentPhase == Phase.FirstPlaying)
+			{
+				CurrentPhase = Phase.FirstThinking;
+				MyDocument.AddLog("押", Convert.ToDecimal((MyQuestionPlayer.CurrentPosition - CurrentQuestion.PlayPos).TotalSeconds));
+			}
 		}
 
 		#endregion
@@ -378,6 +409,22 @@ namespace Aldentea.StandingMutus
 		}
 
 		#endregion
+
+
+
+		private void MenuItemQuestionList_Checked(object sender, RoutedEventArgs e)
+		{
+			if (MenuItemQuestionList.IsChecked)
+			{
+				QuestionListBox.SetBinding(ListBox.ItemsSourceProperty, new Binding("Questions"));
+				QuestionListBox.Items.Filter = q => ((SweetQuestion)q).Category == _category;
+				QuestionListBox.Items.SortDescriptions.Add(new SortDescription("No", ListSortDirection.Ascending));	// ※これは1回でいいのでは？
+			}
+			else
+			{
+				QuestionListBox.ItemsSource = null;
+			}
+		}
 
 
 		#region INotifyPropertyChanged実装
