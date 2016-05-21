@@ -55,6 +55,7 @@ namespace Aldentea.StandingMutus
 			MyQuestionPlayer.QuestionEnded += MyQuestionPlayer_QuestionEnded;
 
 			MyDocument.OrderAdded += MyDocument_OrderAdded;
+			MyDocument.OrderRemoved += MyDocument_OrderRemoved;
 			MyDocument.Opened += MyDocument_Opened;
 		}
 		#endregion
@@ -97,6 +98,42 @@ namespace Aldentea.StandingMutus
 
 		string _category = string.Empty;
 
+
+		// この2つのコマンドハンドラはコピペです！
+
+		#region Undo
+
+		private void Undo_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			if (MyDocument.CanUndo)
+			{
+				MyDocument.Undo();
+			}
+		}
+
+		private void Undo_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = MyDocument.CanUndo;
+		}
+
+		#endregion
+
+		#region Redo
+
+		private void Redo_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			if (MyDocument.CanRedo)
+			{
+				MyDocument.Redo();
+			}
+		}
+
+		private void Redo_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = MyDocument.CanRedo;
+		}
+
+		#endregion
 
 
 
@@ -248,6 +285,7 @@ namespace Aldentea.StandingMutus
 				MyQuestionPlayer.Open(nextQuestion);
 
 				this.CurrentPhase = Phase.Ready;
+				this.MenuItemQuestionList.IsChecked = false;
 			}
 		}
 		#endregion
@@ -255,8 +293,8 @@ namespace Aldentea.StandingMutus
 		#region *Order削除時
 		private void MyDocument_OrderRemoved(object sender, GrandMutus.Data.OrderEventArgs e)
 		{
-			//this.CurrentPhase = PlayingPhase.Talking;
-			//MyQuestionPlayer.Close();
+			this.CurrentPhase = Phase.Talking;
+			MyQuestionPlayer.Close();
 			this.CurrentQuestion = null;
 		}
 		#endregion
@@ -303,7 +341,12 @@ namespace Aldentea.StandingMutus
 		}
 		void StopQuestion_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			MyQuestionPlayer.Stop(CurrentPhase == Phase.SecondPlaying);
+			var is_second = CurrentPhase == Phase.SecondPlaying;
+			MyQuestionPlayer.Stop(is_second);
+			if (is_second)
+			{
+				CurrentPhase = Phase.SecondThinking;
+			}
 		}
 
 

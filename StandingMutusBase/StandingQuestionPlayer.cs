@@ -274,14 +274,20 @@ namespace Aldentea.StandingMutus.Base
 		#region *出題停止(Stop)
 		public void Stop(bool second = false)
 		{
-			_questionClock.Controller.Pause();
-			// ここではTimeLineの切り替えを行わない！
+			if (second)
+			{
+				End();
+			}
+			else
+			{
+				_questionClock.Controller.Pause();
+				// ここではTimeLineの切り替えを行わない！
 
-			_timer.Stop();
-			NotifyPropertyChanged("CurrentQuestionRestDuration");
+				_timer.Stop();
+				NotifyPropertyChanged("CurrentQuestionRestDuration");
 
-			this.QuestionStopped(this, EventArgs.Empty);
-
+				this.QuestionStopped(this, EventArgs.Empty);
+			}
 		}
 		#endregion
 

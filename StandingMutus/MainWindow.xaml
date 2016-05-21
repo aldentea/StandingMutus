@@ -59,6 +59,9 @@
 										Command="{x:Static hypermutus:Commands.SeekSabiCommand}"
 										Executed="SeekSabi_Executed"
 										CanExecute="SeekSabi_CanExecute" />
+		<CommandBinding Command="Undo"
+										Executed="Undo_Executed"
+										CanExecute="Undo_CanExecute" />
 
 	</Window.CommandBindings>
 	<DockPanel>
