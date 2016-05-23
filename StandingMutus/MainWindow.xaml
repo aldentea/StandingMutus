@@ -64,6 +64,14 @@
 										CanExecute="Undo_CanExecute" />
 
 	</Window.CommandBindings>
+	<Window.InputBindings>
+		<KeyBinding Key="F8" Command="{x:Static base:Commands.StandbyCommand}" />
+		<KeyBinding Key="F5" Command="{x:Static hypermutus:Commands.SwitchPlayPauseCommand}" />
+		<KeyBinding Key="F6" Command="{x:Static hypermutus:Commands.SeekSabiCommand}" />
+		<KeyBinding Key="F2" Command="{x:Static hypermutus:QuizCommands.Start}" />
+		<KeyBinding Key="F3" Command="{x:Static hypermutus:QuizCommands.Stop}" />
+		<KeyBinding Key="F4" Command="{x:Static base:Commands.EndQuestionCommand}" />
+	</Window.InputBindings>
 	<DockPanel>
 		<Menu DockPanel.Dock="Top" FontSize="18">
 			<MenuItem Header="ファイル(_F)">

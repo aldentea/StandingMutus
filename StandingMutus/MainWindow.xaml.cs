@@ -285,6 +285,7 @@ namespace Aldentea.StandingMutus
 				MyQuestionPlayer.Open(nextQuestion);
 
 				this.CurrentPhase = Phase.Ready;
+				this.InputBindings.Remove(F2RestartBinding);
 				this.MenuItemQuestionList.IsChecked = false;
 			}
 		}
@@ -347,8 +348,12 @@ namespace Aldentea.StandingMutus
 			{
 				CurrentPhase = Phase.SecondThinking;
 			}
+			else
+			{
+				this.InputBindings.Add(F2RestartBinding);
+			}
 		}
-
+		static KeyBinding F2RestartBinding = new KeyBinding(Base.Commands.RestartCommand, new KeyGesture(Key.F2));
 
 		private void questionPlayer_QuestionStopped(object sender, EventArgs e)
 		{
