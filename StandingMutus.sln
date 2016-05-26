@@ -7,20 +7,38 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StandingMutus", "StandingMu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StandingMutusBase", "StandingMutusBase\StandingMutusBase.csproj", "{450CC209-4484-4EA7-890E-248653335ADB}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "StandingMutusSetup_x64", "StandingMutusSetup_x64\StandingMutusSetup_x64.vdproj", "{539FAEE7-7F9F-46A6-B974-88D16B4FDD93}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{965B7A82-760A-476E-A0D4-5B0878BC9B15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{965B7A82-760A-476E-A0D4-5B0878BC9B15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{965B7A82-760A-476E-A0D4-5B0878BC9B15}.Debug|x64.ActiveCfg = Debug|x64
+		{965B7A82-760A-476E-A0D4-5B0878BC9B15}.Debug|x64.Build.0 = Debug|x64
 		{965B7A82-760A-476E-A0D4-5B0878BC9B15}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{965B7A82-760A-476E-A0D4-5B0878BC9B15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{965B7A82-760A-476E-A0D4-5B0878BC9B15}.Release|x64.ActiveCfg = Release|x64
+		{965B7A82-760A-476E-A0D4-5B0878BC9B15}.Release|x64.Build.0 = Release|x64
 		{450CC209-4484-4EA7-890E-248653335ADB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{450CC209-4484-4EA7-890E-248653335ADB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{450CC209-4484-4EA7-890E-248653335ADB}.Debug|x64.ActiveCfg = Debug|x64
+		{450CC209-4484-4EA7-890E-248653335ADB}.Debug|x64.Build.0 = Debug|x64
 		{450CC209-4484-4EA7-890E-248653335ADB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{450CC209-4484-4EA7-890E-248653335ADB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{450CC209-4484-4EA7-890E-248653335ADB}.Release|x64.ActiveCfg = Release|x64
+		{450CC209-4484-4EA7-890E-248653335ADB}.Release|x64.Build.0 = Release|x64
+		{539FAEE7-7F9F-46A6-B974-88D16B4FDD93}.Debug|Any CPU.ActiveCfg = Debug
+		{539FAEE7-7F9F-46A6-B974-88D16B4FDD93}.Debug|x64.ActiveCfg = Debug
+		{539FAEE7-7F9F-46A6-B974-88D16B4FDD93}.Debug|x64.Build.0 = Debug
+		{539FAEE7-7F9F-46A6-B974-88D16B4FDD93}.Release|Any CPU.ActiveCfg = Release
+		{539FAEE7-7F9F-46A6-B974-88D16B4FDD93}.Release|x64.ActiveCfg = Release
+		{539FAEE7-7F9F-46A6-B974-88D16B4FDD93}.Release|x64.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
